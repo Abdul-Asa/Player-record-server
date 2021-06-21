@@ -1,5 +1,7 @@
 const express = require("express");
 const db = require('../database/queries');
+const multer  = require('multer');
+const upload = multer({ dest: './Avatars' });
 
 const router = express.Router();
 
@@ -11,7 +13,7 @@ router.get("/", db.getAllPlayers);
 router.get("/:id", db.getSinglePlayer);
 router.post("/", db.addPlayer);
 router.patch("/:id", db.updatePlayer);
-router.put("avatar/:id", ode);
 router.delete("/:id", db.deletePlayer);
+router.put("/avatar/:id", upload.single('avatar'), db.updateAvatar);
 
 module.exports = router;

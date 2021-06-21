@@ -1,4 +1,7 @@
+const uuid = require("uuid");
 const client = require('./db');
+const fs = require("fs");
+
 
 
 const getAllPlayers = (request, response) => {
@@ -68,10 +71,33 @@ const deletePlayer = (request, response) => {
     });
 }
 
+const updateAvatar = (request, response) => {
+    const id = parseInt(request.params.id)
+    let fileName = uuid.v4();
+    fs.rename(request.file.path,"./Avatars/"+fileName + ".jpeg",(err)=> {
+        if(err) return err;    
+        console.log(fileName);
+    })
+  
+    client.query('UPDATE players SET avatar = $1 WHERE id = $2',
+    [fileName, id],
+      (error, results) => {
+        if (error) {
+          return error
+        }
+        else {
+            response.status(200).send(`Player avatar has been updated. id:${id}`)
+        }
+      }
+    )
+}
+
+
 module.exports = {
     getAllPlayers,
     getSinglePlayer,
     addPlayer,
     updatePlayer,
     deletePlayer,
+    updateAvatar
 }
