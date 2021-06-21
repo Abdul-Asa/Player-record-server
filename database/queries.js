@@ -28,12 +28,12 @@ const getSinglePlayer = (request, response) => {
 const addPlayer = (request, response) => {
     const { name, position, clubname } = request.body
   
-    client.query('INSERT INTO players (name, position, clubname) VALUES ($1, $2)', [name, position, clubname], (error, results) => {
+    client.query('INSERT INTO players (name, position, clubname) VALUES ($1, $2, $3)', [name, position, clubname], (error, results) => {
       if (error) {
         return error
       }
       else{
-        response.status(201).send(`Player has been added has been added: ${result}`);
+        response.status(201).send(`Player has been added has been added `);
       }
     });
 };
@@ -49,7 +49,7 @@ const updatePlayer = (request, response) => {
           return error
         }
         else {
-            response.status(200).send(`Player has been updated to ${results}`)
+            response.status(200).send(`Player with id:${id} has been updated`)
         }
       }
     )
