@@ -2,8 +2,6 @@ const uuid = require("uuid");
 const client = require('./db');
 const fs = require("fs");
 
-
-
 const getAllPlayers = (request, response) => {
     client.query('SELECT * FROM players ORDER BY id ASC', (error, results) => {
       if (error) {
